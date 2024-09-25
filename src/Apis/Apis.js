@@ -7,3 +7,9 @@ export async function fetchTrendingMovies(){
     console.log(result.data);
     return result.data
   }
+export async function fetchWeeklyMovies() {
+    const result=await axios.get("https://api.themoviedb.org/3/trending/all/week?api_key=fa89a24b6ec93d795380bdb4810bb735")
+    console.log(result.data);
+    return result.data
+    
+}

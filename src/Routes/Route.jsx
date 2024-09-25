@@ -2,7 +2,8 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom"
 import Home from "../Pages/Home"
 import HomeRoute from "../Pages/HomeRoute"
-import { fetchTrendingMovies } from "../Apis/Apis"
+import { fetchTrendingMovies ,fetchWeeklyMovies} from "../Apis/Apis"
+import WeeklyMovies from "../Components/WeeklyMovies"
 
 
 const router=createBrowserRouter([
@@ -14,7 +15,9 @@ const router=createBrowserRouter([
           element:<Home/>,
           loader:fetchTrendingMovies
         },{
-          
+          path:"week",
+          element:<WeeklyMovies/>,
+          loader:fetchWeeklyMovies
         }]
     },
 ])
