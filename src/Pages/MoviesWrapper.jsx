@@ -1,11 +1,7 @@
-import React from 'react'
+import React from "react";
 
 const MoviesWrapper = () => {
-  return (
-    <div>
-      
-    </div>
-  )
-}
+  return <div></div>;
+};
 
-export default MoviesWrapper
+export default MoviesWrapper;
