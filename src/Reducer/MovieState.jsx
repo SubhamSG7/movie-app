@@ -1,20 +1,23 @@
-import { useReducer } from "react";
+import { createContext, useContext, useReducer } from "react";
 
 const initialState = {
   trendingMovies: [],
   weeklyMovies: [],
 };
+const GlobalStateContext = createContext();
 
 function reducer(state, action) {
-  console.log("hello");
   return state;
 }
 
-const MoviesState = ({ children }) => {
+export const GlobalStateProvider = ({ children }) => {
   const [state, dispatch] = useReducer(reducer, initialState);
-  return children({
-    state,
-    dispatch,
-  });
+  return (
+    <GlobalStateContext.Provider value={{ state, dispatch }}>
+      {children}
+    </GlobalStateContext.Provider>
+  );
 };
-export default MoviesState;
+export const useGlobalState = () => {
+  return useContext(GlobalStateContext);
+};
