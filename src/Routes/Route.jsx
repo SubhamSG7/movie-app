@@ -18,7 +18,8 @@ const router=createBrowserRouter([
           path:"week",
           element:<WeeklyMovies/>,
           loader:fetchWeeklyMovies
-        }]
+        },
+      ]
     },
 ])
 
