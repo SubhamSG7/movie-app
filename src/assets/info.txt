@@ -4,3 +4,5 @@ API KEY: https://www.themoviedb.org/settings/api
 Developer Section: https://developer.themoviedb.org/
 
 VITE_API_KEY=fa89a24b6ec93d795380bdb4810bb735
+
+https://github.com/aakashindoriya/cimetsales/blob/main/README.md

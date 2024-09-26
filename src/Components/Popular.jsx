@@ -1,17 +1,19 @@
-import React, { useState } from "react";
-import { useGlobalState } from "../Reducer/MovieState";
-import ToggelButton from "./ToggelButton";
+import React, { useState } from 'react'
+import { useGlobalState } from '../Reducer/MovieState'
+import MoveTvToogle from './MoveTvToogle';
 
-const Trending = () => {
-  const { state } = useGlobalState();
+const Popular = () => {
+    const { state } = useGlobalState();
+ 
   const imageUrl = state.imageUrl;
-  const [toggleDayWeek,setToggleDayWeek]=useState("day")
+  const [toggleMovieTv,settoggleMovieTv]=useState("Movie")
   const [visibleCards, setVisibleCards] = useState(5);
-  let trendingMovies;
- if(toggleDayWeek==="day"){
-   trendingMovies = state.trending || [];
+  let popularMovies;
+  
+ if(toggleMovieTv==="Movie"){
+   popularMovies = state.popular || [];
  }else{
-   trendingMovies = state.week || [];
+   popularMovies = state.popularTv || [];
  }
   
   const handlePrev = () => {
@@ -20,7 +22,7 @@ const Trending = () => {
     }
   };
   const handleLoadMore = () => {
-    if (visibleCards + 5 > trendingMovies.length) {
+    if (visibleCards + 5 > popularMovies.length) {
       setVisibleCards(5);
     } else {
       setVisibleCards((prev) => prev + 5);
@@ -30,9 +32,9 @@ const Trending = () => {
   return (
     <div className="flex flex-col items-center w-full">
      <div className="flex justify-between w-full">
-     <h1 className="w-100 ml-20">Trending</h1>
+     <h1 className="w-100 ml-20">Popular</h1>
     <div>
-    <ToggelButton setToggleDayWeek={setToggleDayWeek}/>
+    <MoveTvToogle settoggleMovieTv={settoggleMovieTv}/>
     </div>
      </div>
       <div className="flex items-center justify-center mb-4">
@@ -42,7 +44,7 @@ const Trending = () => {
         ></i>
       </div>
       <div className="flex flex-wrap justify-center w-full transition-transform duration-700 ease-in-out">
-        {trendingMovies.slice(visibleCards - 5, visibleCards).map((val) => (
+        {popularMovies.slice(visibleCards - 5, visibleCards).map((val) => (
           <div key={val.id} className="w-1/5 p-2 transition-transform transform duration-700 ease-in-out">
             <div className="bg-[#04152d] text-white rounded-lg shadow-lg overflow-hidden transition-transform transform hover:scale-105">
               <img
@@ -68,6 +70,6 @@ const Trending = () => {
       </div>
     </div>
   );
-};
+}
 
-export default Trending;
+export default Popular
