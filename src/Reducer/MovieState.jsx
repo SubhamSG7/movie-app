@@ -2,34 +2,57 @@ import { createContext, useContext, useReducer } from "react";
 
 const initialState = {
   trending: [],
-  week:[],
-  popular:[],
-  topRated:[],
-  popularTv:[],
-  movies:[],
-  imageUrl:"https://image.tmdb.org/t/p/original/"
+  week: [],
+  popular: [],
+  topRated: [],
+  popularTv: [],
+  movies: [],
+  genre: [],
+  imageUrl: "https://image.tmdb.org/t/p/original/",
 };
 const GlobalStateContext = createContext();
 
 function reducer(state, action) {
-  switch(action.type){
+  switch (action.type) {
     case "setHomePageCollection":
-      const {trending,popular,topRated,week,popularTv,topRatedTv}=action.payload
-      return {...state,trending,popular,topRated,week,popularTv,topRatedTv};
+      const { trending, popular, topRated, week, popularTv, topRatedTv } =
+        action.payload;
+      return {
+        ...state,
+        trending,
+        popular,
+        topRated,
+        week,
+        popularTv,
+        topRatedTv,
+      };
     case "setMoviesCollection":
-      return {...state,movies:action.payload}
+      return { ...state, movies: action.payload };
+    case "addMovies":
+      console.log(state);
+      return { ...state, movies: [...state.movies, ...action.payload] };
+    case "setGenre":
+      return { ...state, genre: action.payload };
+    default:
+      return state;
+  }
 }
-  return state;
-}
-
-export const setHomePageCollection = (movies) => ({
-  type: 'setHomePageCollection',
+export const addMovies = (movies) => ({
+  type: "addMovies",
   payload: movies,
 });
-export const setMoviesCollection=(movies)=>({
-  type:"setMoviesCollection",
-  payload:movies
-})
+export const setHomePageCollection = (movies) => ({
+  type: "setHomePageCollection",
+  payload: movies,
+});
+export const setMoviesCollection = (movies) => ({
+  type: "setMoviesCollection",
+  payload: movies,
+});
+export const setGenre = (genreData) => ({
+  type: "setGenre",
+  payload: genreData,
+});
 
 export const GlobalStateProvider = ({ children }) => {
   const [state, dispatch] = useReducer(reducer, initialState);
