@@ -1,51 +1,50 @@
-const DropDown = ({ setSort, sort }) => {
-  const handleGenre = (e) => {
-    setSort({ ...sort, genre: e.target.value });
-  };
+import React from "react";
 
-  const handleOrder = (e) => {
-    setSort({ ...sort, order: e.target.value });
+const DropDown = ({ setSort, sort }) => {
+  const handleChange = (field) => (e) => {
+    setSort((prev) => ({ ...prev, [field]: e.target.value }));
   };
 
   return (
     <div className="flex flex-col md:flex-row space-y-2 md:space-y-0 md:space-x-4">
       <select
         name="genre"
-        value={sort.genre || ""} // Default to empty string if no genre is selected
-        onChange={handleGenre}
+        value={sort.genre || ""}
+        onChange={handleChange("genre")}
         className="border rounded-md p-2 bg-white text-gray-700"
       >
         <option value="" disabled>
           Select Genre
         </option>
-        <option value="28">Action</option>
-        <option value="12">Adventure</option>
-        <option value="16">Animation</option>
-        <option value="35">Comedy</option>
-        <option value="99">Documentary</option>
-        <option value="18">Drama</option>
-        <option value="10751">Family</option>
-        <option value="14">Fantasy</option>
+        {["Action", "Adventure", "Animation", "Comedy", "Documentary", "Drama", "Family", "Fantasy"].map((label, index) => (
+          <option key={index} value={[28, 12, 16, 35, 99, 18, 10751, 14][index]}>
+            {label}
+          </option>
+        ))}
       </select>
 
       <select
         name="order"
-        value={sort.order || ""} // Default to empty string if no order is selected
-        onChange={handleOrder}
+        value={sort.order || ""}
+        onChange={handleChange("order")}
         className="border rounded-md p-2 bg-white text-gray-700"
       >
         <option value="" disabled>
           Sort By
         </option>
-        <option value="popularity.desc">Popularity Descending</option>
-        <option value="popularity.asc">Popularity Ascending</option>
-        <option value="vote_average.desc">Rating Descending</option>
-        <option value="vote_average.asc">Rating Ascending</option>
-        <option value="primary_release_date.desc">
-          Release Date Descending
-        </option>
-        <option value="primary_release_date.asc">Release Date Ascending</option>
-        <option value="original_title.asc">Title (A-Z)</option>
+        {[
+          { value: "popularity.desc", label: "Popularity Descending" },
+          { value: "popularity.asc", label: "Popularity Ascending" },
+          { value: "vote_average.desc", label: "Rating Descending" },
+          { value: "vote_average.asc", label: "Rating Ascending" },
+          { value: "primary_release_date.desc", label: "Release Date Descending" },
+          { value: "primary_release_date.asc", label: "Release Date Ascending" },
+          { value: "original_title.asc", label: "Title (A-Z)" },
+        ].map(({ value, label }) => (
+          <option key={value} value={value}>
+            {label}
+          </option>
+        ))}
       </select>
     </div>
   );

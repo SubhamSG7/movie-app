@@ -29,7 +29,6 @@ function reducer(state, action) {
     case "setMoviesCollection":
       return { ...state, movies: action.payload };
     case "addMovies":
-      console.log(state);
       return { ...state, movies: [...state.movies, ...action.payload] };
     case "setGenre":
       return { ...state, genre: action.payload };

@@ -2,39 +2,28 @@ import React, { useEffect } from "react";
 import { useLoaderData } from "react-router-dom";
 import Trending from "../Components/Trending";
 import {
-  setGenre,
   setHomePageCollection,
   useGlobalState,
 } from "../Reducer/MovieState";
 import Popular from "../Components/Popular";
 import Toprated from "../Components/Toprated";
-import { getGenre } from "../Apis/GetGenre";
+import SearchBody from "../Components/SearchBody";
 
 const Home = () => {
   const data = useLoaderData();
   const { dispatch } = useGlobalState();
-  const genreData = getGenre();
   useEffect(() => {
     dispatch(setHomePageCollection(data));
   }, [data, dispatch]);
-  useEffect(() => {
-    const fetchGenres = async () => {
-      try {
-        const genreData = await getGenre();
-        dispatch(setGenre(genreData));
-      } catch (error) {
-        console.error("Failed to fetch genres", error);
-      }
-    };
-
-    fetchGenres();
-  }, [dispatch]);
+  
   return (
     <>
-      <h1>Home</h1>
-      <Trending />
+      <div>
+      <SearchBody/>
+      <Trending  />
       <Popular />
       <Toprated />
+      </div>
     </>
   );
 };

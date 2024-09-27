@@ -5,6 +5,7 @@ import { fetchHomePageMovies, fetchWeeklyMovies } from "../Apis/Apis";
 import WeeklyMovies from "../Components/WeeklyMovies";
 import Movie from "../Components/Movie";
 import { fetchMovies } from "../Apis/Apis";
+import SearchComp from "../Components/SearchComp";
 
 const router = createBrowserRouter([
   {
@@ -25,6 +26,9 @@ const router = createBrowserRouter([
         path:"movies",
         element:<Movie/>,
         loader:fetchMovies
+      },{
+        path:"search",
+        element:<SearchComp/>,
       }
     ],
   },

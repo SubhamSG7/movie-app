@@ -6,13 +6,13 @@ import { GlobalStateProvider } from "../Reducer/MovieState";
 
 const HomeRoute = () => {
   return (
-    <>
-      <Header />
+    <div className="h-100%">
+      <Header className="h-[10%]" />
       <GlobalStateProvider>
         <Outlet />
       </GlobalStateProvider>
-      <Footer />
-    </>
+      <Footer className="h-[20%]" />
+    </div>
   );
 };
 

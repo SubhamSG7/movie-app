@@ -1,18 +1,26 @@
-import React from 'react'
+import React from 'react';
 
-const MoveTvToogle = ({settoggleMovieTv}) => {
-    function handleMovieClick(){
-        settoggleMovieTv("Movie")
-    }
-    function handleTvShowsClick(){
-        settoggleMovieTv("tv")
-    }
+const MoveTvToggle = ({ setToggleMovieTv, activeToggle }) => {
+  const handleToggle = (type) => {
+    setToggleMovieTv(type);
+  };
+
   return (
-    <>
-    <button onClick={handleMovieClick} className=' rounded-full bg-yellow-50 w-[5rem]'>Movies</button>
-    <button onClick={handleTvShowsClick} className=' rounded-full bg-slate-300 w-[5rem]'>TV Shows</button>
-    </>
-  )
-}
+    <div className="flex space-x-2">
+      <button
+        onClick={() => handleToggle("Movie")}
+        className={`rounded-full w-[5rem] ${activeToggle === "Movie" ? 'bg-yellow-50' : 'bg-gray-200'}`}
+      >
+        Movies
+      </button>
+      <button
+        onClick={() => handleToggle("tv")}
+        className={`rounded-full w-[5rem] ${activeToggle === "tv" ? 'bg-yellow-50' : 'bg-gray-200'}`}
+      >
+        TV Shows
+      </button>
+    </div>
+  );
+};
 
-export default MoveTvToogle
+export default MoveTvToggle;
