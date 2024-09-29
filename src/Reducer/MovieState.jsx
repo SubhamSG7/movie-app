@@ -9,6 +9,7 @@ const initialState = {
   movies: [],
   genre: [],
   imageUrl: "https://image.tmdb.org/t/p/original/",
+  noImage: `https://movix-app-murex.vercel.app/assets/no-poster-4xa9LmsT.png`,
 };
 const GlobalStateContext = createContext();
 
@@ -29,11 +30,11 @@ function reducer(state, action) {
     case "setMoviesCollection":
       return { ...state, movies: action.payload };
     case "addMovies":
-      return { ...state, movies: [...state.movies, ...action.payload] };
+      return { ...state, movies: state.movies.concat(action.payload) };
     case "setGenre":
       return { ...state, genre: action.payload };
     default:
-      return state;
+      return { ...state };
   }
 }
 export const addMovies = (movies) => ({

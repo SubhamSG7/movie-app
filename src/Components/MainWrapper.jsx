@@ -1,72 +1,70 @@
-import React, { useEffect, useState } from "react";
-import { useGlobalState } from "../Reducer/MovieState";
+import React, { useEffect, useRef, useState } from "react";
 import { CircularProgressbar } from "react-circular-progressbar";
 import "react-circular-progressbar/dist/styles.css";
-import { debounce } from 'lodash';
 import { useGenre } from "../Apis/useGenre";
+import Loader from "./Loader";
+import { useGlobalState } from "../Reducer/MovieState";
+import { useNavigate } from "react-router-dom";
 
-const MainWrapper = ({ setPage }) => {
+const MainWrapper = ({ setPage, fetching, setIsFetching, movies, type }) => {
   const genreData = useGenre();
+  const [contentType, setContentType] = useState(type);
+  const scrollPosition = useRef(0);
   const { state } = useGlobalState();
-  const moviesCollection = state.movies;
-  const [loading, setLoading] = useState(false);
-  const [isFetching, setIsFetching] = useState(false);
-
-  function checkGenre(id) {
-    console.log(id);
-
-    return genreData.map((val) => val.id === id ? val.name : "")
+  const noImage = state.noImage;
+  const navigate = useNavigate();
+  function handleSelected(id) {
+    navigate("/selected", { state: { id, contentType } });
   }
-
-  const handleScroll = debounce(() => {
-    const scrollPosition = window.scrollY + window.innerHeight;
-    const threshold = document.body.offsetHeight - 100;
-    if (scrollPosition >= threshold && !loading && !isFetching) {
-      setLoading(true);
-      setIsFetching(true);
-      setPage((prev) => prev + 1);
+  const handleScroll = () => {
+    if (
+      window.scrollY + window.innerHeight >=
+        document.documentElement.offsetHeight - 200 &&
+      !fetching
+    ) {
+      scrollPosition.current = window.scrollY;
+      if (!fetching) {
+        setIsFetching(true);
+        setPage((prev) => prev + 1);
+      }
     }
-  }, 100);
+  };
 
   useEffect(() => {
     window.addEventListener("scroll", handleScroll);
     return () => {
       window.removeEventListener("scroll", handleScroll);
     };
-  }, [loading, isFetching]);
+  }, []);
 
-  useEffect(() => {
-    if (loading) {
-      const timer = setTimeout(() => {
-        setLoading(false);
-        setIsFetching(false);
-      }, 2000);
-
-      return () => clearTimeout(timer);
-    }
-  }, [loading]);
-  if (genreData.length == 0) {
-    return <div className="flex justify-center items-center h-screen">
-      <div className="loader border-t-4 border-b-4 border-blue-500 rounded-full w-16 h-16 animate-spin"></div>
-    </div>
-
+  if (genreData.length === 0 || movies.length === 0) {
+    return <Loader />;
   }
+
   return (
     <div className="flex flex-wrap">
-      {moviesCollection.map((val) => {
+      {movies.map((val) => {
         const strokeColor =
           val.vote_average > 7
             ? "rgba(0, 255, 0, 1)"
-            : `rgba(255, 215, 0, ${val?.vote_average / 10})`;
+            : `rgba(255, 215, 0, ${val.vote_average / 10})`;
 
         return (
-          <div key={val?.id} className="relative w-full sm:w-1/2 md:w-1/3 lg:w-1/5 p-2">
+          <div
+            key={val.id}
+            className="relative w-full sm:w-1/2 md:w-1/3 lg:w-1/5 p-2 cursor-pointer"
+            onClick={() => handleSelected(val.id)}
+          >
             <div className="bg-[#04152d] text-white rounded-lg shadow-lg overflow-hidden transition-transform transform hover:scale-105 relative">
-              <div className="relative w-full h-40">
+              <div className="relative w-full h-64">
                 <img
-                  src={`https://image.tmdb.org/t/p/w500${val.poster_path}`}
-                  alt={val?.title}
-                  className="w-full h-full object-top object-cover"
+                  src={
+                    val.poster_path
+                      ? `https://image.tmdb.org/t/p/w500${val.poster_path}`
+                      : noImage
+                  }
+                  alt={val.title}
+                  className="w-full h-full object-cover"
                 />
                 <div className="absolute bottom-2 left-2 w-10 h-10 flex items-center justify-center bg-black bg-opacity-60 rounded-full">
                   <CircularProgressbar
@@ -75,21 +73,35 @@ const MainWrapper = ({ setPage }) => {
                     styles={{
                       path: { stroke: strokeColor },
                       trail: { stroke: "#d6d6d6" },
-                      text: { fill: "#fff", fontSize: "18px", fontWeight: "bold" },
+                      text: {
+                        fill: "#fff",
+                        fontSize: "18px",
+                        fontWeight: "bold",
+                      },
                     }}
                   />
                 </div>
               </div>
               <div className="p-2">
                 <h3 className="font-semibold text-white truncate text-md">
-                  {val?.title || val?.name}
+                  {val.title || val.name}
                 </h3>
                 <em className="text-xs text-gray-400">
-                  {val?.release_date || val?.first_air_date}
+                  {val.release_date || val.first_air_date}
                 </em>
                 <div className="flex mt-2">
-                  <span className="text-sm text-gray-300 mr-2">{val?.genre_ids[0] ? checkGenre(Number(val?.genre_ids[0])) : "Unknown Genre"}</span>
-                  <span className="text-sm text-gray-300">{val?.genre_ids[1] ? checkGenre(Number(val?.genre_ids[1])) : "Unknown Genre"}</span>
+                  <span className="text-sm text-gray-300 mr-2">
+                    {val.genre_ids[0]
+                      ? genreData.find((genre) => genre.id === val.genre_ids[0])
+                          ?.name || "Unknown Genre"
+                      : "Unknown Genre"}
+                  </span>
+                  <span className="text-sm text-gray-300">
+                    {val.genre_ids[1]
+                      ? genreData.find((genre) => genre.id === val.genre_ids[1])
+                          ?.name || "Unknown Genre"
+                      : ""}
+                  </span>
                 </div>
               </div>
             </div>

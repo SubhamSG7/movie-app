@@ -1,11 +1,11 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Home from "../Pages/Home";
 import HomeRoute from "../Pages/HomeRoute";
-import { fetchHomePageMovies, fetchWeeklyMovies } from "../Apis/Apis";
-import WeeklyMovies from "../Components/WeeklyMovies";
+import { fetchHomePageMovies } from "../Apis/Apis";
 import Movie from "../Components/Movie";
 import { fetchMovies } from "../Apis/Apis";
 import SearchComp from "../Components/SearchComp";
+import IndividualWrapper from "../Components/IndividualWrapper";
 
 const router = createBrowserRouter([
   {
@@ -18,18 +18,18 @@ const router = createBrowserRouter([
         loader: fetchHomePageMovies,
       },
       {
-        path: "week",
-        element: <WeeklyMovies />,
-        loader: fetchWeeklyMovies,
+        path: "movies",
+        element: <Movie />,
+        loader: fetchMovies,
       },
       {
-        path:"movies",
-        element:<Movie/>,
-        loader:fetchMovies
-      },{
-        path:"search",
-        element:<SearchComp/>,
-      }
+        path: "search",
+        element: <SearchComp />,
+      },
+      {
+        path: "selected",
+        element: <IndividualWrapper />,
+      },
     ],
   },
 ]);

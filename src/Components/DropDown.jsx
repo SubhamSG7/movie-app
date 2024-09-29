@@ -16,8 +16,20 @@ const DropDown = ({ setSort, sort }) => {
         <option value="" disabled>
           Select Genre
         </option>
-        {["Action", "Adventure", "Animation", "Comedy", "Documentary", "Drama", "Family", "Fantasy"].map((label, index) => (
-          <option key={index} value={[28, 12, 16, 35, 99, 18, 10751, 14][index]}>
+        {[
+          "Action",
+          "Adventure",
+          "Animation",
+          "Comedy",
+          "Documentary",
+          "Drama",
+          "Family",
+          "Fantasy",
+        ].map((label, index) => (
+          <option
+            key={index}
+            value={[28, 12, 16, 35, 99, 18, 10751, 14][index]}
+          >
             {label}
           </option>
         ))}
@@ -37,8 +49,14 @@ const DropDown = ({ setSort, sort }) => {
           { value: "popularity.asc", label: "Popularity Ascending" },
           { value: "vote_average.desc", label: "Rating Descending" },
           { value: "vote_average.asc", label: "Rating Ascending" },
-          { value: "primary_release_date.desc", label: "Release Date Descending" },
-          { value: "primary_release_date.asc", label: "Release Date Ascending" },
+          {
+            value: "primary_release_date.desc",
+            label: "Release Date Descending",
+          },
+          {
+            value: "primary_release_date.asc",
+            label: "Release Date Ascending",
+          },
           { value: "original_title.asc", label: "Title (A-Z)" },
         ].map(({ value, label }) => (
           <option key={value} value={value}>

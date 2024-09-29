@@ -1,11 +1,7 @@
-import React from 'react'
+import React from "react";
 
 const WeeklyMovies = () => {
-  return (
-    <div>
-      
-    </div>
-  )
-}
+  return <div></div>;
+};
 
-export default WeeklyMovies
+export default WeeklyMovies;
